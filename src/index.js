@@ -1,53 +1,57 @@
-import fs from "node:fs";
-import path from "node:path";
-import _ from "lodash";
+import fs from 'node:fs'
+import path from 'node:path'
+import _ from 'lodash'
 
 const genDiff = (filepath1, filepath2) => {
   try {
-    const data1 = fs.readFileSync(filepath1, "utf8");
-    const data2 = fs.readFileSync(filepath2, "utf8");
+    const data1 = fs.readFileSync(filepath1, 'utf8')
+    const data2 = fs.readFileSync(filepath2, 'utf8')
 
-    const ext1 = path.extname(filepath1);
-    const ext2 = path.extname(filepath2);
+    const ext1 = path.extname(filepath1)
+    const ext2 = path.extname(filepath2)
 
-    if (ext1 !== ".json" || ext2 !== ".json") {
-      throw new Error("Only JSON files are supported for now");
+    if (ext1 !== '.json' || ext2 !== '.json') {
+      throw new Error('Only JSON files are supported for now')
     }
 
-    const obj1 = JSON.parse(data1);
-    const obj2 = JSON.parse(data2);
+    const obj1 = JSON.parse(data1)
+    const obj2 = JSON.parse(data2)
 
     const buildDiff = (obj1, obj2) => {
-      const allKeys = _.union(Object.keys(obj1), Object.keys(obj2));
-      const sortKeys = _.sortBy(allKeys);
+      const allKeys = _.union(Object.keys(obj1), Object.keys(obj2))
+      const sortKeys = _.sortBy(allKeys)
 
       const lines = sortKeys.reduce((acc, key) => {
-        const hasInObj1 = _.has(obj1, key);
-        const hasInObj2 = _.has(obj2, key);
+        const hasInObj1 = _.has(obj1, key)
+        const hasInObj2 = _.has(obj2, key)
 
         if (hasInObj1 && !hasInObj2) {
-          acc.push(`  - ${key}: ${obj1[key]}`);
-        } else if (!hasInObj1 && hasInObj2) {
-          acc.push(`  + ${key}: ${obj2[key]}`);
-        } else if (hasInObj1 && hasInObj2) {
+          acc.push(`  - ${key}: ${obj1[key]}`)
+        }
+        else if (!hasInObj1 && hasInObj2) {
+          acc.push(`  + ${key}: ${obj2[key]}`)
+        }
+        else if (hasInObj1 && hasInObj2) {
           if (_.isEqual(obj1[key], obj2[key])) {
-            acc.push(`    ${key}: ${obj1[key]}`);
-          } else {
-            acc.push(`  - ${key}: ${obj1[key]}`);
-            acc.push(`  + ${key}: ${obj2[key]}`);
+            acc.push(`    ${key}: ${obj1[key]}`)
+          }
+          else {
+            acc.push(`  - ${key}: ${obj1[key]}`)
+            acc.push(`  + ${key}: ${obj2[key]}`)
           }
         }
 
-        return acc;
-      }, []);
+        return acc
+      }, [])
 
-      return `{\n${lines.join("\n")}\n}`;
-    };
+      return `{\n${lines.join('\n')}\n}`
+    }
 
-    return buildDiff(obj1, obj2);
-  } catch (e) {
-    throw new Error(`Error reading files: ${e.message}`);
+    return buildDiff(obj1, obj2)
   }
-};
+  catch (e) {
+    throw new Error(`Error reading files: ${e.message}`)
+  }
+}
 
-export default genDiff;
+export default genDiff
