@@ -35,5 +35,3 @@ test("throws error when file does not exist", () => {
   ).toThrow();
 });
 
-const theory = 46;
-
