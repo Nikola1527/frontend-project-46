@@ -34,3 +34,6 @@ test("throws error when file does not exist", () => {
     genDiff("nonexistent.json", getFixturesPath("file1.json")),
   ).toThrow();
 });
+
+const theory = 46;
+
