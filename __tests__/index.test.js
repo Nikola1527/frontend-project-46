@@ -1,24 +1,36 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import genDiff from '../src/index.js'
-import { fileURLToPath } from 'node:url'
-import { dirname } from 'node:path'
+import fs from "node:fs";
+import path from "node:path";
+import genDiff from "../src/index.js";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
 
-test('gendiff compares two flat JSON files correctly', () => {
-  const __filename = fileURLToPath(import.meta.url)
-  const __dirname = dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const fixturesPath = path.join(__dirname, "..", "__fixtures__");
 
-  const file1 = path.join(__dirname, '..', '__fixtures__', 'file1.json')
-  const file2 = path.join(__dirname, '..', '__fixtures__', 'file2.json')
-  const expectedFile = path.join(
-    __dirname,
-    '..',
-    '__fixtures__',
-    'expected.txt',
-  )
+const getFixturesPath = (filename) => path.join(fixturesPath, filename);
+const readFixtures = (filename) =>
+  fs.readFileSync(getFixturesPath(filename), "utf8");
 
-  const expected = fs.readFileSync(expectedFile, 'utf8')
-  const result = genDiff(file1, file2)
+test("gendiff compares two flat JSON files correctly", () => {
+  const result = genDiff(
+    getFixturesPath("file1.json"),
+    getFixturesPath("file2.json"),
+  );
+  const expected = readFixtures("expected.txt");
+  expect(result).toBe(expected);
+});
 
-  expect(result).toBe(expected)
-})
+test("both files empty returns empty diff", () => {
+  const result = genDiff(
+    getFixturesPath("empty.json"),
+    getFixturesPath("empty.json"),
+  );
+  expect(result).toBe("{\n}");
+});
+
+test("throws error when file does not exist", () => {
+  expect(() =>
+    genDiff("nonexistent.json", getFixturesPath("file1.json")),
+  ).toThrow();
+});
