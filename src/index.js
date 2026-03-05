@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import _ from 'lodash'
+import getParsedData from './parsers/index.js'
 
 const genDiff = (filepath1, filepath2) => {
   try {
@@ -10,12 +11,12 @@ const genDiff = (filepath1, filepath2) => {
     const ext1 = path.extname(filepath1)
     const ext2 = path.extname(filepath2)
 
-    if (ext1 !== '.json' || ext2 !== '.json') {
+    /* if (ext1 !== '.json' || ext2 !== '.json') {
       throw new Error('Only JSON files are supported for now')
-    }
+    } */
 
-    const obj1 = JSON.parse(data1)
-    const obj2 = JSON.parse(data2)
+    const obj1 = getParsedData(data1, ext1)
+    const obj2 = getParsedData(data2, ext2)
 
     const buildDiff = (obj1, obj2) => {
       const allKeys = _.union(Object.keys(obj1), Object.keys(obj2))
@@ -44,6 +45,9 @@ const genDiff = (filepath1, filepath2) => {
         return acc
       }, [])
 
+      if (lines.length === 0) {
+        return '{\n}'
+      }
       return `{\n${lines.join('\n')}\n}`
     }
 
