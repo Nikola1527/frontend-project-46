@@ -9,7 +9,8 @@
   },
   "scripts": {
     "gendiff": "node bin/gendiff.js",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
