@@ -79,7 +79,7 @@ const buildDiffTree = (obj1, obj2) => {
         return {
           key,
           type: 'changed',
-          oldValue: null,
+          oldValue: obj1[key],
           newValue: obj2[key],
           deletedTree: buildDeletedTree(obj1[key]),
         }
@@ -89,7 +89,7 @@ const buildDiffTree = (obj1, obj2) => {
           key,
           type: 'changed',
           oldValue: obj1[key],
-          newValue: null,
+          newValue: obj2[key],
           addedTree: buildAddedTree(obj2[key]),
         }
       }
