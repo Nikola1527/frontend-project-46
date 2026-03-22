@@ -1,4 +1,4 @@
-import fs, { read } from 'node:fs'
+import fs from 'node:fs'
 import path from 'node:path'
 import genDiff from '../src/index.js'
 import { fileURLToPath } from 'node:url'

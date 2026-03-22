@@ -33,6 +33,7 @@ const json = (node, path = []) => {
           oldValue: _.isObject(oldValue) ? '[complex value]' : oldValue,
           newValue: _.isObject(newValue) ? '[complex value]' : newValue,
         })
+        break
 
       case 'unchanged':
         break

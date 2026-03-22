@@ -5,7 +5,7 @@ const getParsedData = (content, format) => {
     try {
       return JSON.parse(content)
     }
-    catch (e) {
+    catch (_) {
       throw new Error('Unable to parse file JSON format')
     }
   }
@@ -13,7 +13,7 @@ const getParsedData = (content, format) => {
     try {
       return yaml.load(content)
     }
-    catch (e) {
+    catch (_) {
       throw new Error('Unable to parse file YAML format')
     }
   }

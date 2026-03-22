@@ -1,6 +1,5 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import _ from 'lodash'
 import getParsedData from './parsers/index.js'
 import buildDiffTree from './buildDiffTree.js'
 import getFormatter from './formatters/index.js'
