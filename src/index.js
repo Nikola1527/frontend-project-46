@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import _ from 'lodash'
 import getParsedData from './parsers/index.js'
+import buildDiffTree from './buildDiffTree.js'
+import formatStylish from './formatters/stylish.js'
 
 const genDiff = (filepath1, filepath2) => {
   try {
@@ -18,7 +20,13 @@ const genDiff = (filepath1, filepath2) => {
     const obj1 = getParsedData(data1, ext1)
     const obj2 = getParsedData(data2, ext2)
 
-    const buildDiff = (obj1, obj2) => {
+    const diffTree = buildDiffTree(obj1, obj2)
+    const inner = formatStylish(diffTree)
+    if (inner === '') {
+      return '{\n}'
+    }
+
+    /* const buildDiff = (obj1, obj2) => {
       const allKeys = _.union(Object.keys(obj1), Object.keys(obj2))
       const sortKeys = _.sortBy(allKeys)
 
@@ -49,9 +57,9 @@ const genDiff = (filepath1, filepath2) => {
         return '{\n}'
       }
       return `{\n${lines.join('\n')}\n}`
-    }
+    } */
 
-    return buildDiff(obj1, obj2)
+    return `{\n${inner}\n}`
   }
   catch (e) {
     throw new Error(`Error reading files: ${e.message}`)

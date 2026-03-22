@@ -12,17 +12,17 @@ program
   .helpOption('-h, --help', 'display help for command')
   .argument('<filepath1>', 'path to first configuration file')
   .argument('<filepath2>', 'path to second configuration file')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2, options) => {
     try {
       const absolutePath1 = path.resolve(process.cwd(), filepath1)
       const absolutePath2 = path.resolve(process.cwd(), filepath2)
 
-      const diff = genDiff(absolutePath1, absolutePath2)
+      const diff = genDiff(absolutePath1, absolutePath2, options.format)
       console.log(diff)
     }
     catch (e) {
-      console.e('Error:', e.message)
+      console.error('Error:', e.message)
       process.exit(1)
     }
   })
