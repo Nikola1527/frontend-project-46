@@ -1,9 +1,11 @@
 import stylish from './stylish.js'
 import plain from './plain.js'
+import json from './json.js'
 
 const formatters = {
   stylish,
   plain,
+  json: node => JSON.stringify(json(node), null, 2),
 }
 
 const getFormatter = (formatName) => {

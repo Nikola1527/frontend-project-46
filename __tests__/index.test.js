@@ -52,7 +52,7 @@ test('both files empty returns empty diff', () => {
   expect(result).toBe('{\n}')
 })
 
-test('gendiff compares two flat JSON files correctly', () => {
+test('gendiff with plain format for JSON files', () => {
   const result = genDiff(
     getFixturesPath('file1.json'),
     getFixturesPath('file2.json'),
@@ -69,5 +69,25 @@ test('gendiff with plain format for YAML files', () => {
     'plain',
   )
   const expected = readFixtures('expected-plain-yml.txt')
+  expect(result).toBe(expected)
+})
+
+test('gendiff with json format for JSON files', () => {
+  const result = genDiff(
+    getFixturesPath('file1.json'),
+    getFixturesPath('file2.json'),
+    'json',
+  )
+  const expected = readFixtures('expected-json.txt')
+  expect(result).toBe(expected)
+})
+
+test('gendiff with json format for YAML files', () => {
+  const result = genDiff(
+    getFixturesPath('file1.yml'),
+    getFixturesPath('file2.yml'),
+    'json',
+  )
+  const expected = readFixtures('expected-json-yml.txt')
   expect(result).toBe(expected)
 })
