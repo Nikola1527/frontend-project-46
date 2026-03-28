@@ -12,10 +12,6 @@ const genDiff = (filepath1, filepath2, formatName = 'stylish') => {
     const ext1 = path.extname(filepath1)
     const ext2 = path.extname(filepath2)
 
-    /* if (ext1 !== '.json' || ext2 !== '.json') {
-      throw new Error('Only JSON files are supported for now')
-    } */
-
     const obj1 = getParsedData(data1, ext1)
     const obj2 = getParsedData(data2, ext2)
 

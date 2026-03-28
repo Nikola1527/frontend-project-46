@@ -9,11 +9,15 @@ const formatters = {
 }
 
 const getFormatter = (formatName) => {
-  const formatter = formatters[formatName]
-  if (!formatter) {
-    throw new Error(`Unknown format: ${formatName}`)
+  switch (formatName) {
+    case 'stylish':
+    case 'plain':
+    case 'json':
+      return formatters[formatName]
+
+    default:
+      throw new Error(`Unknown format: ${formatName}`)
   }
-  return formatter
 }
 
 export default getFormatter
